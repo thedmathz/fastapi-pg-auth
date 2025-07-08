@@ -1,9 +1,9 @@
-# fastapi-pg-auth
+# FastAPI-PostgreSQL Basic API
 Basic FastAPI + PostgreSQL endpoints
 
 ## File Structure
 ```
-fastapi_auth_app/
+project/
 ├── app/
 │   ├── __init__.py
 │   ├── main.py
@@ -22,13 +22,12 @@ fastapi_auth_app/
 │   ├── schemas/
 │   │   ├── __init__.py
 │   │   └── user.py
-│   ├── crud/
+│   ├── services/
 │   │   ├── __init__.py
 │   │   └── user.py
 │   ├── api/
 │   │   ├── __init__.py
-│   │   └── routes_user.py
-│   └── deps.py
+│       └── routes_user.py
 ├── .env
 ├── requirements.txt
 └── README.md
