@@ -44,10 +44,15 @@ project/
 - Open pgAdmin4, login, then create database
 - Open the project in your IDE, then change the **.env.example** to **.env**
 - Open the **.env** file and update database credentials
-```bash
-DATABASE_URL=postgresql+asyncpg://db_username:db_password@localhost:5432/db_name
-SECRET_KEY=mysecretkey 
-```
+    ```bash
+    DATABASE_URL=postgresql+asyncpg://db_username:db_password@localhost:5432/db_name
+    SECRET_KEY=mysecretkey 
+    ```
+    - change **localhost** to your posgresql server ip address, (dont change it if its on your computer)
+    - change **5432** to your posgresql server port, (dont change it if its on your computer or have no issues)
+    - change **db_username** to your posgresql server username
+    - change **db_username** to your posgresql server password
+    - change **db_name** to your posgresql database name
 
 ### Run the App
 - Open terminal, then change directory to project path
