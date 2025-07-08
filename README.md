@@ -53,6 +53,7 @@ project/
     - change **db_username** to your posgresql server username
     - change **db_username** to your posgresql server password
     - change **db_name** to your posgresql database name
+    - change **mysecretkey** if you have your own secret key
 
 ### Run the App
 - Open terminal, then change directory to project path
