@@ -33,7 +33,7 @@ project/
 └── README.md
 ```
 
-## Run the App on Windows
+## Run on Windows
 
 ### Prerequisite
 - Pip 3
