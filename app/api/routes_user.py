@@ -1,37 +1,31 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
-from app.schemas.user import UserCreate, UserOut, UserLogin, UserUpdate
-from app.services import user as crud_user
-from app.core.security import verify_password
+from app.schemas.user import UserOut, UserPost, UserPut
+from app.services import user as svc_user
 
 router = APIRouter()
 
-@router.post("/login")
-async def login(user_in: UserLogin, db: AsyncSession = Depends(get_db)):
-    user = await crud_user.get_user_by_name(db, user_in.username)
-    if not user or not verify_password(user_in.password, user.password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    return {"msg": "Login successful"}
+label = "User"
 
-@router.post("/users", response_model=UserOut)
-async def create_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
-    return await crud_user.create_user(db, user)
+@router.get("/", response_model=list[UserOut], summary=f"{label} list")
+async def index(db: AsyncSession = Depends(get_db)):
+    return await svc_user.index(db)
 
-@router.get("/users", response_model=list[UserOut])
-async def get_users(db: AsyncSession = Depends(get_db)):
-    return await crud_user.get_users(db)
+@router.post("/", response_model=UserOut, summary=f"Insert new {label}")
+async def post(user: UserPost, db: AsyncSession = Depends(get_db)):
+    return await svc_user.post(db, user)
 
-@router.get("/users/{user_id}", response_model=UserOut)
-async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
-    user = await crud_user.get_user(db, user_id)
+@router.get("/{id}", response_model=UserOut, summary=f"Get {label} details")
+async def get(id: int, db: AsyncSession = Depends(get_db)):
+    user = await svc_user.get(db, id)
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail=f"{label} not found")
     return user
 
-@router.put("/users/{user_id}", response_model=UserOut)
-async def update_user(user_id: int, user_update: UserUpdate, db: AsyncSession = Depends(get_db)):
-    user = await crud_user.update_user(db, user_id, user_update)
+@router.put("/{id}", response_model=UserOut, summary=f"Update {label}")
+async def put(id: int, user_update: UserPut, db: AsyncSession = Depends(get_db)):
+    user = await svc_user.put(db, id, user_update)
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail=f"{label} not found")
     return user

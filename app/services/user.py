@@ -1,31 +1,26 @@
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.user import User
-from app.schemas.user import UserCreate, UserUpdate
+from app.schemas.user import UserPost, UserPut
 from app.core.security import hash_password
 
-async def get_user_by_name(db: AsyncSession, username: str):
-    result = await db.execute(select(User).where(User.username == username))
-    return result.scalar_one_or_none()
-
-async def get_user(db: AsyncSession, user_id: int):
-    return await db.get(User, user_id)
-
-async def get_users(db: AsyncSession): 
+async def index(db: AsyncSession): 
     result = await db.execute(select(User)) 
     return result.scalars().all() 
 
-async def create_user(db: AsyncSession, user: UserCreate):
-    hashed = hash_password(user.password)
+async def post(db: AsyncSession, user: UserPost):
     data = user.model_dump(exclude={"password"})
-    db_user = User(**data, password=hashed)
+    db_user = User(**data, password=hash_password(user.password))
     db.add(db_user) 
     await db.commit() 
     await db.refresh(db_user) 
     return db_user
 
-async def update_user(db: AsyncSession, user_id: int, user_update: UserUpdate):
-    db_user = await db.get(User, user_id)
+async def get(db: AsyncSession, id: int):
+    return await db.get(User, id)
+
+async def put(db: AsyncSession, id: int, user_update: UserPut):
+    db_user = await db.get(User, id)
     if not db_user:
         return None
 
