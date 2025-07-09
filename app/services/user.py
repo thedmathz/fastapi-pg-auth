@@ -2,7 +2,7 @@ from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.user import User
 from app.schemas.user import UserPost, UserPut
-from app.core.security import hash_password
+from app.utils.security import hash_password
 
 async def index(db: AsyncSession): 
     result = await db.execute(select(User)) 

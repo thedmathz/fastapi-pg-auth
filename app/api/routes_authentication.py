@@ -3,7 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
 from app.schemas.user import UserLogin
 from app.services import authentication as svc_authentication
-from app.core.security import verify_password
+from app.utils.security import verify_password
+from app.utils.token import create_access_token
 
 router = APIRouter()
 
@@ -20,18 +21,5 @@ async def login(user_in: UserLogin, db: AsyncSession = Depends(get_db)):
     user = await svc_authentication.get_user_by_name(db, user_in.username)
     if not user or not verify_password(user_in.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    return {"msg": "Login successful"}
-
-@router.post("/verify", summary=f"Verify Token")
-async def verify(user_in: UserLogin, db: AsyncSession = Depends(get_db)):
-    user = await svc_authentication.get_user_by_name(db, user_in.username)
-    if not user or not verify_password(user_in.password, user.password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    return {"msg": "Login successful"}
-
-@router.post("/logout", summary=f"Log Out")
-async def login(user_in: UserLogin, db: AsyncSession = Depends(get_db)):
-    user = await svc_authentication.get_user_by_name(db, user_in.username)
-    if not user or not verify_password(user_in.password, user.password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    return {"msg": "Login successful"}
+    access_token = create_access_token(data={"sub": str(user.userID)})
+    return {"access_token": access_token}
