@@ -1,7 +1,9 @@
 import asyncio
 from app.db.session import engine
-from app.models import user
 from app.db.base import Base
+
+# add all tables for db creation
+from app.models import user, configuration 
 
 async def init():
     async with engine.begin() as conn:

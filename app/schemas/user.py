@@ -1,28 +1,28 @@
 from pydantic import BaseModel
 from typing import Optional
 
+class UserLogin(BaseModel):
+    username: str
+    password: str
+    
 class UserBase(BaseModel):
     username: str
-    lname: str
     fname: str
-    mname: str | None = None
+    mname: Optional[str] = ''
+    lname: str
     gender: str
 
-class UserCreate(UserBase):
+class UserPost(UserBase):
     password: str
 
+class UserPut(BaseModel):
+    fname: str
+    lname: str
+    password: str 
+    
 class UserOut(UserBase):
     userID: int
 
     model_config = {
         "from_attributes": True
     }
-
-class UserLogin(BaseModel):
-    username: str
-    password: str
-    
-class UserUpdate(BaseModel):
-    fname: Optional[str] = None
-    lname: Optional[str] = None
-    password: Optional[str] = None 
