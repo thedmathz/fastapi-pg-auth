@@ -10,7 +10,6 @@ project/
 │   ├── core/
 │   │   ├── __init__.py
 │   │   ├── config.py
-│   │   └── security.py
 │   ├── db/
 │   │   ├── __init__.py
 │   │   ├── base.py
@@ -25,8 +24,14 @@ project/
 │   ├── services/
 │   │   ├── __init__.py
 │   │   └── user.py
-│   ├── api/
+│   ├── utils/
 │   │   ├── __init__.py
+│   │   ├── misc.py
+│   │   ├── sms.py
+│   │   ├── email.py
+│   │   └── security.py
+│   └── api/
+│       ├── __init__.py
 │       └── routes_user.py
 ├── .env
 ├── requirements.txt
@@ -60,6 +65,10 @@ project/
 ```bash 
 cd <project_path> 
 ``` 
+- Create virtual environment
+```bash
+py -3 -m venv .venv
+```
 - Activate vitrual environment
 ```bash
 .venv\Scripts\activate
