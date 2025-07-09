@@ -11,7 +11,6 @@ router = APIRouter()
 
 @router.get("/", response_model=list[UserOut], summary=f"{label} list")
 async def index(db: AsyncSession = Depends(get_db), userID: str = Depends(svc_authentication.currentUserID)):
-    print(userID)
     return await svc_user.index(db)
 
 @router.post("/", response_model=UserOut, summary=f"Insert new {label}")
