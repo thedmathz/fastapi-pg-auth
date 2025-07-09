@@ -1,5 +1,9 @@
 # FastAPI-PostgreSQL Basic API
-Basic FastAPI + PostgreSQL endpoints
+
+### Modules:
+- Authentication
+- Users
+- Configurations 
 
 ## File Structure
 ```
